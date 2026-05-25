@@ -1,0 +1,87 @@
+import java.util.*;
+
+class Room {
+    int roomNo;
+    String type;
+    boolean booked;
+
+    Room(int roomNo, String type) {
+        this.roomNo = roomNo;
+        this.type = type;
+        this.booked = false;
+    }
+}
+
+public class HotelReservationSystem {
+    static ArrayList<Room> rooms = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        rooms.add(new Room(101, "Standard"));
+        rooms.add(new Room(102, "Deluxe"));
+        rooms.add(new Room(103, "Suite"));
+
+        while (true) {
+            System.out.println("\n1. View Rooms");
+            System.out.println("2. Book Room");
+            System.out.println("3. Cancel Booking");
+            System.out.println("4. Exit");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    viewRooms();
+                    break;
+
+                case 2:
+                    System.out.print("Enter room number: ");
+                    int roomNo = sc.nextInt();
+                    bookRoom(roomNo);
+                    break;
+
+                case 3:
+                    System.out.print("Enter room number: ");
+                    int cancelNo = sc.nextInt();
+                    cancelRoom(cancelNo);
+                    break;
+
+                case 4:
+                    System.exit(0);
+            }
+        }
+    }
+
+    static void viewRooms() {
+        for (Room r : rooms) {
+            System.out.println(
+                    r.roomNo + " | " + r.type
+                            + " | Booked: " + r.booked);
+        }
+    }
+
+    static void bookRoom(int roomNo) {
+        for (Room r : rooms) {
+            if (r.roomNo == roomNo && !r.booked) {
+                r.booked = true;
+                System.out.println("Room booked successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Room unavailable.");
+    }
+
+    static void cancelRoom(int roomNo) {
+        for (Room r : rooms) {
+            if (r.roomNo == roomNo && r.booked) {
+                r.booked = false;
+                System.out.println("Booking cancelled.");
+                return;
+            }
+        }
+
+        System.out.println("No booking found.");
+    }
+}
