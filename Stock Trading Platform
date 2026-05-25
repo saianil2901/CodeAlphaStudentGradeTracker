@@ -1,0 +1,89 @@
+import java.util.*;
+
+class Stock {
+    String name;
+    double price;
+
+    Stock(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class Portfolio {
+    HashMap<String, Integer> holdings = new HashMap<>();
+
+    void buyStock(String stockName, int qty) {
+        holdings.put(stockName,
+                holdings.getOrDefault(stockName, 0) + qty);
+
+        System.out.println("Bought " + qty + " shares of " + stockName);
+    }
+
+    void sellStock(String stockName, int qty) {
+        if (holdings.containsKey(stockName)
+                && holdings.get(stockName) >= qty) {
+
+            holdings.put(stockName,
+                    holdings.get(stockName) - qty);
+
+            System.out.println("Sold " + qty + " shares of " + stockName);
+        } else {
+            System.out.println("Not enough shares.");
+        }
+    }
+
+    void displayPortfolio() {
+        System.out.println("\nPortfolio:");
+        for (String stock : holdings.keySet()) {
+            System.out.println(stock + " : "
+                    + holdings.get(stock) + " shares");
+        }
+    }
+}
+
+public class StockTradingPlatform {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Portfolio p = new Portfolio();
+
+        while (true) {
+            System.out.println("\n1. Buy");
+            System.out.println("2. Sell");
+            System.out.println("3. View Portfolio");
+            System.out.println("4. Exit");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter stock name: ");
+                    String buyStock = sc.nextLine();
+
+                    System.out.print("Enter quantity: ");
+                    int buyQty = sc.nextInt();
+
+                    p.buyStock(buyStock, buyQty);
+                    break;
+
+                case 2:
+                    System.out.print("Enter stock name: ");
+                    String sellStock = sc.nextLine();
+
+                    System.out.print("Enter quantity: ");
+                    int sellQty = sc.nextInt();
+
+                    p.sellStock(sellStock, sellQty);
+                    break;
+
+                case 3:
+                    p.displayPortfolio();
+                    break;
+
+                case 4:
+                    System.exit(0);
+            }
+        }
+    }
+}
